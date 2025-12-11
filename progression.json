@@ -1,0 +1,27 @@
+{
+  "eleve": {
+    "nom": "Yohann",
+    "debut": "2025-12-10",
+    "niveau": "debutant"
+  },
+  "modules": {
+    "1": { "nom": "Les Bases", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "2": { "nom": "Memory & CLAUDE.md", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "3": { "nom": "Commandes & Raccourcis", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "4": { "nom": "MCP Servers", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "5": { "nom": "Settings & Permissions", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "6": { "nom": "Skills & Sub-agents", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "7": { "nom": "Hooks & Automation", "status": "a_faire", "complete_le": null, "quiz_score": null },
+    "8": { "nom": "Best Practices", "status": "a_faire", "complete_le": null, "quiz_score": null }
+  },
+  "stats": {
+    "modules_completes": 0,
+    "quiz_reussis": 0,
+    "temps_total_minutes": 0
+  },
+  "derniere_session": {
+    "date": "2025-12-10",
+    "module_en_cours": null,
+    "section_en_cours": null
+  }
+}
