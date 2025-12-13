@@ -15,48 +15,59 @@ interface PopoverContentProps {
 
 const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isPositioned, setIsPositioned] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const onCloseRef = useRef(onClose);
   const entry = GLOSSARY[term];
 
-  // Calculate position
+  // Keep onClose ref updated
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
+
+  // Calculate position after mount
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     if (!popoverRef.current) return;
 
-    const popoverRect = popoverRef.current.getBoundingClientRect();
-    const scrollY = window.scrollY;
-    const scrollX = window.scrollX;
-    const gap = 12;
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      if (!popoverRef.current) return;
 
-    // Default: above, centered
-    let top = rect.top + scrollY - popoverRect.height - gap;
-    let left = rect.left + scrollX - (popoverRect.width / 2) + (rect.width / 2);
+      const popoverRect = popoverRef.current.getBoundingClientRect();
+      const gap = 12;
 
-    // Flip to bottom if not enough space above
-    if (rect.top - popoverRect.height - gap < 20) {
-      top = rect.bottom + scrollY + gap;
-    }
+      // Position below the trigger, centered horizontally
+      let top = rect.bottom + gap;
+      let left = rect.left + (rect.width / 2) - (popoverRect.width / 2);
 
-    // Horizontal constraints
-    const minLeft = 10;
-    const maxLeft = document.body.clientWidth - popoverRect.width - 10;
-    if (left < minLeft) left = minLeft;
-    if (left > maxLeft) left = maxLeft;
+      // If not enough space below, position above
+      if (rect.bottom + popoverRect.height + gap > window.innerHeight) {
+        top = rect.top - popoverRect.height - gap;
+      }
 
-    setPosition({ top, left });
+      // Horizontal constraints
+      const minLeft = 10;
+      const maxLeft = window.innerWidth - popoverRect.width - 10;
+      if (left < minLeft) left = minLeft;
+      if (left > maxLeft) left = maxLeft;
+
+      setPosition({ top, left });
+      setIsPositioned(true);
+    });
   }, [rect]);
 
   // Close on click outside, escape, or page scroll
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-        onClose();
+        onCloseRef.current();
       }
     };
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') onCloseRef.current();
     };
 
     // Handle scroll events (wheel for desktop, touchmove for mobile)
@@ -67,15 +78,14 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
         return;
       }
       // If scrolling outside → close popover
-      onClose();
+      onCloseRef.current();
     };
 
-    setTimeout(() => {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleEscape);
-      document.addEventListener('wheel', handleScroll, { passive: true });
-      document.addEventListener('touchmove', handleScroll, { passive: true });
-    }, 100);
+    // Add listeners immediately (no setTimeout)
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    document.addEventListener('wheel', handleScroll, { passive: true });
+    document.addEventListener('touchmove', handleScroll, { passive: true });
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -83,7 +93,7 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       document.removeEventListener('wheel', handleScroll);
       document.removeEventListener('touchmove', handleScroll);
     };
-  }, [onClose]);
+  }, []); // Empty deps - use ref for onClose
 
   if (!entry) return null;
 
@@ -94,7 +104,8 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       style={{
         top: `${position.top}px`,
         left: `${position.left}px`,
-        animation: 'fadeIn 0.2s ease-out',
+        opacity: isPositioned ? 1 : 0,
+        animation: isPositioned ? 'fadeIn 0.2s ease-out' : 'none',
       }}
       role="tooltip"
     >
