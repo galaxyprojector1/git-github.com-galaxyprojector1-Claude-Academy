@@ -13,6 +13,47 @@ interface PopoverContentProps {
   onClose: () => void;
 }
 
+// Debug panel state (global for visibility)
+let debugMessages: string[] = [];
+let setDebugState: React.Dispatch<React.SetStateAction<string[]>> | null = null;
+
+const addDebug = (msg: string) => {
+  const time = new Date().toLocaleTimeString();
+  debugMessages = [...debugMessages.slice(-9), `${time}: ${msg}`];
+  if (setDebugState) setDebugState([...debugMessages]);
+  console.log(msg);
+};
+
+const DebugPanel: React.FC = () => {
+  const [messages, setMessages] = useState<string[]>([]);
+
+  useEffect(() => {
+    setDebugState = setMessages;
+    return () => { setDebugState = null; };
+  }, []);
+
+  if (messages.length === 0) return null;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: 10,
+      left: 10,
+      background: 'black',
+      color: 'lime',
+      padding: 10,
+      fontSize: 11,
+      fontFamily: 'monospace',
+      zIndex: 9999,
+      maxWidth: 350,
+      borderRadius: 5,
+    }}>
+      <div style={{ fontWeight: 'bold', marginBottom: 5 }}>🔧 DEBUG SCROLL</div>
+      {messages.map((m, i) => <div key={i}>{m}</div>)}
+    </div>
+  );
+};
+
 const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isPositioned, setIsPositioned] = useState(false);
@@ -73,55 +114,52 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       if (e.key === 'Escape') onCloseRef.current();
     };
 
-    // DEBUG: Log when handlers are called
     const handlePageScroll = () => {
-      console.log('🔴 PAGE SCROLL - closing popover');
+      addDebug('🔴 PAGE SCROLL → ferme');
       onCloseRef.current();
     };
 
     const handlePopoverScroll = () => {
-      console.log('🟢 POPOVER SCROLL - opening details');
+      addDebug('🟢 SCROLL DANS POPOVER → ouvre détails');
       setIsDetailsOpen(true);
     };
 
     const handleWheel = (e: WheelEvent) => {
-      console.log('🟡 WHEEL event - target:', (e.target as Element)?.tagName || 'unknown');
+      const targetTag = (e.target as Element)?.tagName || '?';
       const target = e.target;
       if (popoverRef.current && target instanceof Node && popoverRef.current.contains(target)) {
-        console.log('🟢 Wheel inside popover');
+        addDebug(`🟢 WHEEL dans popover (${targetTag})`);
         setIsDetailsOpen(true);
       } else {
-        console.log('🔴 Wheel outside popover - closing');
+        addDebug(`🔴 WHEEL dehors (${targetTag}) → ferme`);
         onCloseRef.current();
       }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      console.log('🟣 TOUCHMOVE event - target:', (e.target as Element)?.tagName || 'unknown');
+      const targetTag = (e.target as Element)?.tagName || '?';
       const target = e.target;
       if (popoverRef.current && target instanceof Node && popoverRef.current.contains(target)) {
-        console.log('🟢 Touch inside popover');
+        addDebug(`🟢 TOUCH dans popover (${targetTag})`);
         setIsDetailsOpen(true);
       } else {
-        console.log('🔴 Touch outside popover - closing');
+        addDebug(`🔴 TOUCH dehors (${targetTag}) → ferme`);
         onCloseRef.current();
       }
     };
 
-    // Add scroll listener to popover element
     const popoverElement = popoverRef.current;
     if (popoverElement) {
       popoverElement.addEventListener('scroll', handlePopoverScroll);
     }
 
-    // Add all listeners
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
     window.addEventListener('scroll', handlePageScroll, true);
     document.addEventListener('wheel', handleWheel, { passive: true });
     document.addEventListener('touchmove', handleTouchMove, { passive: true });
 
-    console.log('✅ All event listeners added');
+    addDebug('✅ Listeners ajoutés');
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -132,7 +170,6 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       if (popoverElement) {
         popoverElement.removeEventListener('scroll', handlePopoverScroll);
       }
-      console.log('❌ All event listeners removed');
     };
   }, []); // Empty deps - use ref for onClose
 
@@ -256,6 +293,9 @@ export const ContentRenderer: React.FC<ContentRendererProps> = ({ html }) => {
         onClick={handleContainerClick}
         dangerouslySetInnerHTML={{ __html: html }}
       />
+
+      {/* Debug Panel */}
+      {createPortal(<DebugPanel />, document.body)}
 
       {/* Popover Portal */}
       {activePopover && createPortal(
