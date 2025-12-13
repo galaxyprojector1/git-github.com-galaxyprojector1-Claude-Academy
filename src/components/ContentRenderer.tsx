@@ -75,12 +75,15 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
 
     // Handle scroll events (wheel for desktop, touchmove for mobile)
     const handleScroll = (e: WheelEvent | TouchEvent) => {
-      // If scrolling inside the popover → open "En savoir plus"
-      if (popoverRef.current && popoverRef.current.contains(e.target as Node)) {
+      const target = e.target;
+
+      // Check if target is a valid Node and inside the popover
+      if (popoverRef.current && target instanceof Node && popoverRef.current.contains(target)) {
+        // Scrolling inside the popover → open "En savoir plus"
         setIsDetailsOpen(true);
         return;
       }
-      // If scrolling outside → close popover
+      // Scrolling outside → close popover
       onCloseRef.current();
     };
 
