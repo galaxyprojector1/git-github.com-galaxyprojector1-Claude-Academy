@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { GLOSSARY } from '../data/glossary';
 
@@ -25,14 +25,11 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
     onCloseRef.current = onClose;
   }, [onClose]);
 
-  // Calculate position after mount
+  // Calculate position after mount - use useLayoutEffect for synchronous positioning
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
-  useEffect(() => {
-    if (!popoverRef.current) return;
-
-    // Use requestAnimationFrame to ensure DOM is ready
-    requestAnimationFrame(() => {
+  useLayoutEffect(() => {
+    const calculatePosition = () => {
       if (!popoverRef.current) return;
 
       const popoverRect = popoverRef.current.getBoundingClientRect();
@@ -55,7 +52,13 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
 
       setPosition({ top, left });
       setIsPositioned(true);
-    });
+    };
+
+    // Calculate immediately, and again after a frame to handle any layout shifts
+    calculatePosition();
+    const frameId = requestAnimationFrame(calculatePosition);
+
+    return () => cancelAnimationFrame(frameId);
   }, [rect]);
 
   // Close on click outside, escape, or page scroll
