@@ -5,3 +5,16 @@ dist/
 .vercel/
 *.log
 .DS_Store
+
+# Claude Code local files
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/.session*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Playwright MCP
+.playwright-mcp/

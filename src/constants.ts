@@ -91,7 +91,7 @@ claude -p "Explique ce projet"</code></pre>
     status: 'locked',
     content: `
       <h2>Le systeme de memoire</h2>
-      <p>Claude Code utilise des fichiers <span class="info-trigger" data-term="markdown">markdown</span> pour memoriser le contexte de tes projets.</p>
+      <p>Claude Code utilise des <strong>fichiers <span class="info-trigger" data-term="markdown">markdown</span></strong> pour memoriser le contexte de tes projets. C'est comme une <strong>memoire permanente</strong> qui se transmet entre les sessions.</p>
 
       <h3>Types de fichiers memoire</h3>
       <table>
@@ -107,6 +107,7 @@ claude -p "Explique ce projet"</code></pre>
       </table>
 
       <h3>Hierarchie de priorite</h3>
+      <p>Quand plusieurs fichiers definissent la meme instruction, voici l'<strong>ordre de priorite</strong> :</p>
       <pre><code>CLAUDE.local.md -> CLAUDE.md -> rules/ -> ~/.claude/CLAUDE.md
 (plus haute)                                    (plus basse)</code></pre>
 
@@ -172,6 +173,7 @@ claude -p "Explique ce projet"</code></pre>
     status: 'locked',
     content: `
       <h2>Commandes integrees</h2>
+      <p>Claude Code propose des <strong>commandes slash</strong> pour controler ton environnement de travail. Tape simplement <code>/</code> pour voir toutes les commandes disponibles.</p>
 
       <h3>Gestion de session</h3>
       <table>
@@ -221,6 +223,7 @@ claude -p "Explique ce projet"</code></pre>
       </table>
 
       <h3>Creer ses propres <span class="info-trigger" data-term="slash-commands">commandes slash</span></h3>
+      <p>Tu peux creer tes <strong>propres commandes personnalisees</strong> pour automatiser des taches recurrentes :</p>
       <pre><code># Emplacement
 ~/.claude/commands/      # Global (tous projets)
 .claude/commands/        # Projet (partage equipe)
@@ -270,7 +273,8 @@ Faire ceci avec $ARGUMENTS</code></pre>
     status: 'locked',
     content: `
       <h2>Qu'est-ce que MCP ?</h2>
-      <p><strong><span class="info-trigger" data-term="mcp-protocol">Model Context Protocol</span></strong> permet de connecter Claude a des outils externes : GitHub, Supabase, Perplexity, Vercel, Slack...</p>
+      <p><strong><span class="info-trigger" data-term="mcp-protocol">Model Context Protocol (MCP)</span></strong> est un protocole qui permet de connecter Claude a des <strong>outils externes</strong> : GitHub, Supabase, Perplexity, Vercel, Slack...</p>
+      <p>Imagine donner a Claude des <strong>super-pouvoirs</strong> : acces a tes repos GitHub, ta base de donnees, internet, etc.</p>
 
       <h3>Types de transport</h3>
       <table>
@@ -296,6 +300,7 @@ Faire ceci avec $ARGUMENTS</code></pre>
       </table>
 
       <h3>Ajouter un MCP</h3>
+      <p>Tu peux ajouter des serveurs MCP a differents <strong>niveaux de portee</strong> :</p>
       <pre><code># Global (tous projets)
 claude mcp add --scope user github
 
@@ -308,6 +313,7 @@ claude mcp add --scope project supabase</code></pre>
 claude mcp remove nom   # Supprimer un serveur</code></pre>
 
       <h3>Configuration manuelle</h3>
+      <p>Pour une <strong>configuration avancee</strong>, edite directement le fichier <code>~/.claude.json</code> :</p>
       <pre><code>// Dans ~/.claude.json
 {
   "mcpServers": {
@@ -358,13 +364,14 @@ claude mcp remove nom   # Supprimer un serveur</code></pre>
     status: 'locked',
     content: `
       <h2>Fichiers de configuration</h2>
+      <p>Claude Code utilise plusieurs niveaux de <strong>fichiers de settings</strong> pour configurer le comportement et les <strong><span class="info-trigger" data-term="permissions">permissions</span></strong>.</p>
 
       <h3>Hierarchie de priorite (haute vers basse)</h3>
       <ol>
-        <li>Command-line (flags)</li>
-        <li><code>.claude/settings.local.json</code> (perso)</li>
-        <li><code>.claude/settings.json</code> (equipe)</li>
-        <li><code>~/.claude/settings.json</code> (global)</li>
+        <li><strong>Command-line (flags)</strong> - arguments passes directement</li>
+        <li><code>.claude/settings.local.json</code> - <strong>perso</strong> (gitignore)</li>
+        <li><code>.claude/settings.json</code> - <strong>equipe</strong> (partage)</li>
+        <li><code>~/.claude/settings.json</code> - <strong>global</strong> (tous projets)</li>
       </ol>
 
       <h3>Structure du fichier</h3>
@@ -386,13 +393,14 @@ claude mcp remove nom   # Supprimer un serveur</code></pre>
           <tr><th>Type</th><th>Description</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>allow</code></td><td>Toujours autoriser (sans demander)</td></tr>
-          <tr><td><code>deny</code></td><td>Toujours refuser</td></tr>
-          <tr><td><code>ask</code></td><td>Demander confirmation a chaque fois</td></tr>
+          <tr><td><code><strong>allow</strong></code></td><td>Toujours autoriser (sans demander)</td></tr>
+          <tr><td><code><strong>deny</strong></code></td><td>Toujours refuser</td></tr>
+          <tr><td><code><strong>ask</strong></code></td><td>Demander confirmation a chaque fois</td></tr>
         </tbody>
       </table>
 
       <h3>Patterns de securite recommandes</h3>
+      <p>Protege tes <strong>secrets</strong> et <strong>fichiers sensibles</strong> avec ces patterns :</p>
       <pre><code>{
   "permissions": {
     "deny": [
@@ -405,13 +413,13 @@ claude mcp remove nom   # Supprimer un serveur</code></pre>
 }</code></pre>
 
       <h3>Sandbox</h3>
+      <p>Le <strong><span class="info-trigger" data-term="sandbox">sandbox</span></strong> isole les commandes dans un <strong>environnement securise</strong> pour proteger ton systeme.</p>
       <pre><code>{
   "sandbox": {
     "enabled": true,
     "excludedCommands": ["git"]
   }
 }</code></pre>
-      <p>Le sandbox isole les commandes dans un environnement securise.</p>
 
       <div class="tip">
         <strong>Conseil Pro :</strong> Commence avec des permissions restrictives et assouplis au besoin. Mieux vaut demander trop que pas assez !
@@ -449,18 +457,21 @@ claude mcp remove nom   # Supprimer un serveur</code></pre>
     status: 'locked',
     content: `
       <h2><span class="info-trigger" data-term="skills">Skills</span> vs Commandes</h2>
+      <p>Les <strong>Skills</strong> sont comme des commandes intelligentes qui se <strong>declenchent automatiquement</strong> quand Claude detecte un pattern dans ta demande.</p>
+
       <table>
         <thead>
           <tr><th>Aspect</th><th>Commande</th><th>Skill</th></tr>
         </thead>
         <tbody>
-          <tr><td>Invocation</td><td><code>/nom</code> manuel</td><td>Automatique</td></tr>
-          <tr><td>Fichier</td><td><code>commands/nom.md</code></td><td><code>skills/nom/SKILL.md</code></td></tr>
-          <tr><td>Declencheur</td><td>L'utilisateur</td><td>Claude detecte</td></tr>
+          <tr><td><strong>Invocation</strong></td><td><code>/nom</code> manuel</td><td><strong>Automatique</strong></td></tr>
+          <tr><td><strong>Fichier</strong></td><td><code>commands/nom.md</code></td><td><code>skills/nom/SKILL.md</code></td></tr>
+          <tr><td><strong>Declencheur</strong></td><td>L'utilisateur</td><td>Claude detecte</td></tr>
         </tbody>
       </table>
 
       <h3>Creer un Skill</h3>
+      <p>Cree un <strong>dossier dedie</strong> pour chaque skill avec un fichier <code>SKILL.md</code> :</p>
       <pre><code># Structure
 .claude/skills/pdf-processing/
   SKILL.md
@@ -481,7 +492,7 @@ allowed-tools: Read, Bash
 3. Retourner resultats</code></pre>
 
       <h3>Sub-agents</h3>
-      <p>Les <span class="info-trigger" data-term="subagents">sub-agents</span> sont des agents specialises pour des taches specifiques.</p>
+      <p>Les <strong><span class="info-trigger" data-term="subagents">sub-agents</span></strong> sont des <strong>agents specialises</strong> pour des taches specifiques. Imagine avoir des experts dedies (reviewer, testeur, etc.) qui travaillent avec Claude !</p>
 
       <pre><code># Creer via la commande
 /agents
@@ -543,7 +554,7 @@ Tu es un reviewer senior...</code></pre>
     status: 'locked',
     content: `
       <h2>Qu'est-ce qu'un <span class="info-trigger" data-term="hooks">Hook</span> ?</h2>
-      <p>Un hook est du code qui s'execute <strong>automatiquement</strong> avant ou apres une action de Claude.</p>
+      <p>Un <strong>hook</strong> est du code qui s'execute <strong>automatiquement</strong> avant ou apres une action de Claude. Pense aux hooks comme des <strong>declencheurs automatiques</strong> pour tes workflows.</p>
 
       <h3>Types de hooks</h3>
       <table>
@@ -551,9 +562,9 @@ Tu es un reviewer senior...</code></pre>
           <tr><th>Hook</th><th>Quand</th><th>Peut bloquer</th></tr>
         </thead>
         <tbody>
-          <tr><td><code><span class="info-trigger" data-term="pre-tool-use">PreToolUse</span></code></td><td>Avant un outil</td><td>Oui</td></tr>
-          <tr><td><code><span class="info-trigger" data-term="post-tool-use">PostToolUse</span></code></td><td>Apres un outil</td><td>Non</td></tr>
-          <tr><td><code>SessionStart</code></td><td>Debut session</td><td>Non</td></tr>
+          <tr><td><code><strong><span class="info-trigger" data-term="pre-tool-use">PreToolUse</span></strong></code></td><td>Avant un outil</td><td><strong>Oui</strong></td></tr>
+          <tr><td><code><strong><span class="info-trigger" data-term="post-tool-use">PostToolUse</span></strong></code></td><td>Apres un outil</td><td>Non</td></tr>
+          <tr><td><code><strong>SessionStart</strong></code></td><td>Debut session</td><td>Non</td></tr>
         </tbody>
       </table>
 
@@ -577,6 +588,7 @@ Tu es un reviewer senior...</code></pre>
       <h3>Exemples utiles</h3>
 
       <h4>Auto-format apres edition</h4>
+      <p>Lance automatiquement <strong>Prettier</strong> apres chaque modification de fichier :</p>
       <pre><code>{
   "hooks": {
     "PostToolUse": {
@@ -586,6 +598,7 @@ Tu es un reviewer senior...</code></pre>
 }</code></pre>
 
       <h4>Lint avant commit</h4>
+      <p>Verifie la <strong>qualite du code</strong> avant chaque commit Git :</p>
       <pre><code>{
   "hooks": {
     "PreToolUse": {
@@ -596,9 +609,9 @@ Tu es un reviewer senior...</code></pre>
 
       <h3>Bonnes pratiques</h3>
       <ul>
-        <li>Hooks rapides (pas de process longs)</li>
-        <li>Gerer les erreurs proprement</li>
-        <li>Tester avant production</li>
+        <li><strong>Hooks rapides</strong> - pas de process longs qui ralentissent le workflow</li>
+        <li><strong>Gerer les erreurs</strong> - toujours prevoir les cas d'echec</li>
+        <li><strong>Tester d'abord</strong> - valider tes hooks avant production</li>
       </ul>
 
       <div class="tip">
@@ -637,24 +650,29 @@ Tu es un reviewer senior...</code></pre>
     status: 'locked',
     content: `
       <h2>Workflows recommandes</h2>
+      <p>Voici les <strong>meilleurs workflows</strong> pour travailler efficacement avec Claude Code :</p>
 
       <h3>1. Explore - Plan - Code - Commit</h3>
+      <p>Le workflow <strong>professionnel</strong> en 4 etapes :</p>
       <pre><code>1. Explorer : comprendre le code existant
 2. Shift+Tab : Plan Mode (lecture seule)
 3. Coder : implementer
 4. Committer : verifier puis commit</code></pre>
 
       <h3>2. Test-Driven Development</h3>
+      <p>Developpe avec les <strong>tests d'abord</strong> pour une meilleure qualite :</p>
       <pre><code>1. Ecrire tests d'abord
 2. Les faire echouer
 3. Claude implemente
 4. Tests passent</code></pre>
 
       <h3>3. Taches paralleles (<span class="info-trigger" data-term="worktrees">worktrees</span>)</h3>
+      <p>Travaille sur <strong>plusieurs features simultanement</strong> avec git worktrees :</p>
       <pre><code>git worktree add ../feature-a -b feature-a
 cd ../feature-a && claude</code></pre>
 
       <h2>Optimisation</h2>
+      <p>Optimise <strong>performances</strong> et <strong>couts</strong> avec ces techniques :</p>
 
       <h3>Gestion du <span class="info-trigger" data-term="context-management">contexte</span></h3>
       <table>
@@ -662,39 +680,41 @@ cd ../feature-a && claude</code></pre>
           <tr><th>Action</th><th>Commande</th></tr>
         </thead>
         <tbody>
-          <tr><td>Reinitialiser</td><td><code>/clear</code></td></tr>
-          <tr><td>Compresser</td><td><code><span class="info-trigger" data-term="compact">/compact</span></code></td></tr>
-          <tr><td>Voir usage</td><td><code>/context</code></td></tr>
+          <tr><td><strong>Reinitialiser</strong></td><td><code>/clear</code></td></tr>
+          <tr><td><strong>Compresser</strong></td><td><code><span class="info-trigger" data-term="compact">/compact</span></code></td></tr>
+          <tr><td><strong>Voir usage</strong></td><td><code>/context</code></td></tr>
         </tbody>
       </table>
 
       <h3>Optimiser les MCP</h3>
       <ul>
-        <li>Desactiver MCP non utilises</li>
-        <li>Utiliser <code>@mcp-name</code> pour toggle</li>
+        <li><strong>Desactiver les MCP non utilises</strong> - accelere le demarrage</li>
+        <li>Utiliser <code>@mcp-name</code> pour <strong>toggle rapidement</strong></li>
       </ul>
 
       <h3>Optimiser CLAUDE.md</h3>
       <ul>
-        <li>Garder concis (moins de 50 lignes)</li>
-        <li>Utiliser imports <code>@fichier</code></li>
-        <li>Organiser avec <code>.claude/rules/</code></li>
+        <li><strong>Garder concis</strong> - moins de 50 lignes pour economiser les tokens</li>
+        <li>Utiliser <strong>imports</strong> <code>@fichier</code> pour les details</li>
+        <li><strong>Organiser</strong> avec <code>.claude/rules/</code> modulaires</li>
       </ul>
 
       <h2>Erreurs a eviter</h2>
+      <p>Les <strong>pieges classiques</strong> et comment les eviter :</p>
       <table>
         <thead>
           <tr><th>Erreur</th><th>Solution</th></tr>
         </thead>
         <tbody>
-          <tr><td>CLAUDE.md trop long</td><td>Utiliser rules/ et imports</td></tr>
-          <tr><td>Tous MCP actifs</td><td>Desactiver non utilises</td></tr>
-          <tr><td>Pas de Plan Mode</td><td>Shift+Tab pour explorer</td></tr>
-          <tr><td>Secrets dans CLAUDE.md</td><td>Utiliser .env et deny</td></tr>
+          <tr><td><strong>CLAUDE.md trop long</strong></td><td>Utiliser <code>.claude/rules/</code> et imports</td></tr>
+          <tr><td><strong>Tous MCP actifs</strong></td><td>Desactiver les non utilises</td></tr>
+          <tr><td><strong>Pas de Plan Mode</strong></td><td><code>Shift+Tab</code> pour explorer sans modifier</td></tr>
+          <tr><td><strong>Secrets dans CLAUDE.md</strong></td><td>Utiliser <code>.env</code> et permissions <code>deny</code></td></tr>
         </tbody>
       </table>
 
       <h2>Securite</h2>
+      <p>Configure des <strong>permissions strictes</strong> pour proteger tes donnees sensibles :</p>
       <pre><code>{
   "permissions": {
     "deny": [

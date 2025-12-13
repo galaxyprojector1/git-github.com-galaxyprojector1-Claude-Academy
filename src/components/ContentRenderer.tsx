@@ -47,7 +47,7 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
     setPosition({ top, left });
   }, [rect]);
 
-  // Close on click outside
+  // Close on click outside, escape, or page scroll
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
@@ -59,14 +59,27 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       if (e.key === 'Escape') onClose();
     };
 
+    // Handle wheel events
+    const handleWheel = (e: WheelEvent) => {
+      // If scrolling inside the popover → open "En savoir plus"
+      if (popoverRef.current && popoverRef.current.contains(e.target as Node)) {
+        setIsDetailsOpen(true);
+        return;
+      }
+      // If scrolling outside → close popover
+      onClose();
+    };
+
     setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscape);
+      document.addEventListener('wheel', handleWheel, { passive: true });
     }, 100);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('wheel', handleWheel);
     };
   }, [onClose]);
 
@@ -88,10 +101,11 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
         {entry.title}
       </div>
 
-      {/* Summary */}
-      <div className="mb-3 text-sm leading-relaxed text-gray-700">
-        {entry.summary}
-      </div>
+      {/* Summary - render HTML for bold text */}
+      <div
+        className="mb-3 text-sm leading-relaxed text-gray-700"
+        dangerouslySetInnerHTML={{ __html: entry.summary }}
+      />
 
       {/* Toggle Button */}
       <button
@@ -104,11 +118,12 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
         {isDetailsOpen ? 'Afficher moins' : 'En savoir plus'}
       </button>
 
-      {/* Details */}
+      {/* Details - render HTML for bold text */}
       {isDetailsOpen && (
-        <div className="mt-2 pt-3 border-t border-dashed border-gray-200 text-sm text-gray-600 bg-gray-50 p-3 rounded">
-          {entry.details}
-        </div>
+        <div
+          className="mt-2 pt-3 border-t border-dashed border-gray-200 text-sm text-gray-600 bg-gray-50 p-3 rounded"
+          dangerouslySetInnerHTML={{ __html: entry.details }}
+        />
       )}
 
       <style>{`

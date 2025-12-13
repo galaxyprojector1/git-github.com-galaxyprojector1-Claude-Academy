@@ -8,63 +8,63 @@ export const GLOSSARY: Record<string, GlossaryEntry> = {
   // ===== MODULE 1 - BASES =====
   "cli": {
     title: "CLI (Command Line Interface)",
-    summary: "Interface en ligne de commande qui permet d'interagir avec Claude Code depuis le terminal. C'est l'outil principal pour lancer des sessions interactives ou exécuter des commandes ponctuelles.",
-    details: "Le CLI de Claude Code se lance avec la commande `claude` dans le terminal. Il offre deux modes principaux : interactif (pour des conversations longues avec `claude`) et non-interactif (pour des requêtes ponctuelles avec `claude -p \"query\"`). Installer via `curl -fsSL https://claude.ai/install.sh | bash` sur macOS/Linux ou `npm install -g @anthropic-ai/claude-code` via npm."
+    summary: "Interface en ligne de commande qui permet d'interagir avec <strong>Claude Code</strong> depuis le <strong>terminal</strong>. C'est l'outil principal pour lancer des sessions interactives ou exécuter des commandes ponctuelles.",
+    details: "Le CLI de <strong>Claude Code</strong> se lance avec la commande `claude` dans le <strong>terminal</strong>. Il offre deux modes principaux : <strong>interactif</strong> (pour des conversations longues avec `claude`) et <strong>non-interactif</strong> (pour des requêtes ponctuelles avec `claude -p \"query\"`). Installer via `curl -fsSL https://claude.ai/install.sh | bash` sur macOS/Linux ou `npm install -g @anthropic-ai/claude-code` via npm."
   },
 
   "terminal": {
     title: "Terminal",
-    summary: "Application qui permet d'exécuter des commandes textuelles sur votre ordinateur. C'est l'environnement où vit Claude Code.",
-    details: "Le terminal (ou console/shell) est l'interface où vous tapez des commandes pour interagir avec votre système d'exploitation. Sur macOS/Linux, c'est Terminal ou iTerm, sur Windows c'est PowerShell ou cmd. Claude Code nécessite un terminal moderne avec support des couleurs et du texte formaté pour fonctionner correctement. Les commandes courantes incluent `cd` (changer de dossier), `ls` (lister les fichiers), et bien sûr `claude` pour lancer l'assistant."
+    summary: "Application qui permet d'exécuter des <strong>commandes textuelles</strong> sur votre ordinateur. C'est l'environnement où vit Claude Code.",
+    details: "Le terminal (ou <strong>console/shell</strong>) est l'interface où vous tapez des commandes pour interagir avec votre système d'exploitation. Sur macOS/Linux, c'est <strong>Terminal</strong> ou iTerm, sur Windows c'est <strong>PowerShell</strong> ou cmd. Claude Code nécessite un terminal moderne avec support des couleurs et du texte formaté pour fonctionner correctement. Les commandes courantes incluent `cd` (changer de dossier), `ls` (lister les fichiers), et bien sûr `claude` pour lancer l'assistant."
   },
 
   "mcp": {
     title: "MCP (Model Context Protocol)",
-    summary: "Protocole qui permet à Claude Code de se connecter à des services externes (GitHub, bases de données, API, etc.). C'est le système de plugins de Claude Code.",
-    details: "Le MCP est un standard ouvert créé par Anthropic pour connecter des AI assistants à n'importe quelle source de données ou outil. Il existe deux types de transport : stdio (pour les serveurs locaux comme `npx my-server`) et HTTP (pour les API distantes). On peut configurer les serveurs MCP au niveau user (tous les projets), project (partagé dans .mcp.json), ou local (privé). Exemples : GitHub MCP pour gérer les repos, Supabase MCP pour accéder aux bases de données, ou des MCP custom pour vos propres outils."
+    summary: "Protocole qui permet à Claude Code de se connecter à des <strong>services externes</strong> (GitHub, bases de données, API, etc.). C'est le <strong>système de plugins</strong> de Claude Code.",
+    details: "Le MCP est un standard ouvert créé par Anthropic pour connecter des AI assistants à n'importe quelle source de données ou outil. Il existe deux types de transport : <strong>stdio</strong> (pour les serveurs locaux comme `npx my-server`) et <strong>HTTP</strong> (pour les API distantes). On peut configurer les serveurs MCP au niveau user (tous les projets), project (partagé dans .mcp.json), ou local (privé). Exemples : GitHub MCP pour gérer les repos, Supabase MCP pour accéder aux bases de données, ou des MCP custom pour vos propres outils."
   },
 
   "thinking-mode": {
     title: "Thinking Mode",
-    summary: "Mode où Claude montre son raisonnement interne avant de répondre. Activable avec la touche Tab, il permet de comprendre comment Claude analyse votre demande.",
-    details: "Le Thinking Mode affiche le processus de réflexion de Claude en temps réel, similaire aux balises <thinking> dans l'API. C'est particulièrement utile pour les tâches complexes où vous voulez suivre le raisonnement étape par étape. Appuyez sur Tab pour activer/désactiver ce mode pendant une session. Le contenu affiché dans ce mode n'est pas compté dans la réponse finale mais consomme des tokens. C'est différent d'Extended Thinking qui est un mode de raisonnement plus profond disponible avec certains modèles."
+    summary: "Mode où Claude montre son <strong>raisonnement interne</strong> avant de répondre. Activable avec la touche <strong>Tab</strong>, il permet de comprendre comment Claude analyse votre demande.",
+    details: "Le Thinking Mode affiche le processus de réflexion de Claude en temps réel, similaire aux balises <thinking> dans l'API. C'est particulièrement utile pour les tâches complexes où vous voulez suivre le <strong>raisonnement</strong> étape par étape. Appuyez sur <strong>Tab</strong> pour activer/désactiver ce mode pendant une session. Le contenu affiché dans ce mode n'est pas compté dans la réponse finale mais consomme des tokens. C'est différent d'Extended Thinking qui est un mode de raisonnement plus profond disponible avec certains modèles."
   },
 
   "plan-mode": {
     title: "Plan Mode",
-    summary: "Mode lecture seule où Claude analyse et planifie sans modifier de fichiers. Activable avec Shift+Tab, idéal pour explorer un projet avant de coder.",
-    details: "Le Plan Mode (aussi appelé permission mode 'plan') limite Claude à la lecture seule : il peut explorer les fichiers, analyser l'architecture, et proposer un plan d'action détaillé, mais ne peut rien modifier. C'est le workflow recommandé EPCC (Explore → Plan → Code → Commit). Utilisez Shift+Tab pour basculer entre les modes, ou lancez avec `claude --permission-mode plan`. Parfait pour comprendre un nouveau codebase ou vérifier la faisabilité d'une fonctionnalité avant de commencer le développement."
+    summary: "Mode <strong>lecture seule</strong> où Claude analyse et planifie sans modifier de fichiers. Activable avec <strong>Shift+Tab</strong>, idéal pour explorer un projet avant de coder.",
+    details: "Le Plan Mode (aussi appelé permission mode 'plan') limite Claude à la <strong>lecture seule</strong> : il peut explorer les fichiers, analyser l'architecture, et proposer un plan d'action détaillé, mais ne peut rien modifier. C'est le workflow recommandé <strong>EPCC</strong> (Explore → Plan → Code → Commit). Utilisez <strong>Shift+Tab</strong> pour basculer entre les modes, ou lancez avec `claude --permission-mode plan`. Parfait pour comprendre un nouveau codebase ou vérifier la faisabilité d'une fonctionnalité avant de commencer le développement."
   },
 
   "extended-thinking": {
     title: "Extended Thinking",
-    summary: "Mode de raisonnement profond disponible avec certains modèles (comme Opus 4.5). Claude prend plus de temps pour analyser les problèmes complexes en profondeur.",
-    details: "Extended Thinking est une capacité des modèles les plus avancés qui leur permet de 'réfléchir' beaucoup plus longuement avant de répondre. Au lieu de générer une réponse immédiate, le modèle passe par plusieurs étapes de raisonnement interne, explorant différentes approches et vérifiant sa logique. C'est particulièrement utile pour les problèmes de mathématiques, la conception d'architecture complexe, ou le debugging difficile. Le temps de réflexion peut aller de quelques secondes à plusieurs minutes. Activable via Tab dans certaines conditions."
+    summary: "Mode de <strong>raisonnement profond</strong> disponible avec certains modèles (comme <strong>Opus 4.5</strong>). Claude prend plus de temps pour analyser les problèmes complexes en profondeur.",
+    details: "Extended Thinking est une capacité des modèles les plus avancés qui leur permet de 'réfléchir' beaucoup plus longuement avant de répondre. Au lieu de générer une réponse immédiate, le modèle passe par plusieurs étapes de <strong>raisonnement</strong> interne, explorant différentes approches et vérifiant sa logique. C'est particulièrement utile pour les problèmes de mathématiques, la conception d'architecture complexe, or le debugging difficile. Le temps de réflexion peut aller de quelques secondes à plusieurs minutes. Disponible avec <strong>Opus 4.5</strong>, activable via Tab dans certaines conditions."
   },
 
   "sonnet": {
     title: "Claude Sonnet",
-    summary: "Le modèle Claude par défaut, offrant le meilleur équilibre entre performance et coût. Sonnet 4.5 est la version la plus récente (décembre 2024).",
-    details: "Claude Sonnet est conçu pour être le modèle quotidien des développeurs : rapide, précis, et économique. Sonnet 4.5 (claude-sonnet-4-5-20250929) est le modèle par défaut de Claude Code. Il excelle dans le coding, l'analyse de code, et la manipulation de fichiers. Coût moyen : environ $6/jour pour un développeur typique. Pour changer de modèle : `/model` ou `claude --model sonnet`."
+    summary: "Le <strong>modèle par défaut</strong>, offrant le meilleur équilibre entre <strong>performance et coût</strong>. <strong>Sonnet 4.5</strong> est la version la plus récente (décembre 2024).",
+    details: "Claude Sonnet est conçu pour être le <strong>modèle</strong> quotidien des développeurs : rapide, précis, et économique. <strong>Sonnet 4.5</strong> (claude-sonnet-4-5-20250929) est le <strong>modèle par défaut</strong> de Claude Code. Il excelle dans le coding, l'analyse de code, et la manipulation de fichiers. Coût moyen : environ $6/jour pour un développeur typique. Pour changer de modèle : `/model` ou `claude --model sonnet`."
   },
 
   "opus": {
     title: "Claude Opus",
-    summary: "Le modèle le plus capable de Claude, optimisé pour les tâches complexes nécessitant un raisonnement approfondi. Plus coûteux mais plus puissant que Sonnet.",
-    details: "Claude Opus 4.5 (claude-opus-4-5-20251101) est le modèle flagship d'Anthropic, offrant les meilleures capacités de raisonnement, d'analyse, et de compréhension contextuelle. Utilisez Opus pour : architecture système complexe, refactoring majeur, debugging difficile, ou analyse de sécurité approfondie. Il supporte également Extended Thinking pour les problèmes les plus complexes. Environ 2-3x plus coûteux que Sonnet. Changer avec `/model opus` ou `claude --model opus`."
+    summary: "Le <strong>modèle le plus capable</strong> de Claude, optimisé pour les <strong>tâches complexes</strong> nécessitant un raisonnement approfondi. Plus coûteux mais plus puissant que Sonnet.",
+    details: "Claude Opus 4.5 (claude-opus-4-5-20251101) est le <strong>modèle</strong> flagship d'Anthropic, offrant les meilleures capacités de raisonnement, d'analyse, et de compréhension contextuelle. Utilisez Opus pour : architecture système complexe, refactoring majeur, debugging difficile, ou analyse de sécurité approfondie. Il supporte également Extended Thinking pour les problèmes les plus <strong>complexes</strong>. Environ 2-3x plus coûteux que Sonnet. Changer avec `/model opus` ou `claude --model opus`."
   },
 
   "haiku": {
     title: "Claude Haiku",
-    summary: "Le modèle le plus rapide et économique de Claude. Parfait pour les tâches simples et les sub-agents qui explorent rapidement un codebase.",
-    details: "Claude Haiku 4.5 est optimisé pour la vitesse et l'efficacité. Il est particulièrement utilisé par les sub-agents intégrés comme 'Explore' qui doivent parcourir rapidement de nombreux fichiers. Bien qu'il soit moins capable que Sonnet ou Opus pour les tâches complexes, Haiku excelle dans : la recherche de code, les résumés rapides, les réponses factuelles, et les tâches répétitives. Coût : environ 10x moins cher qu'Opus. Utilisez-le pour économiser des tokens sur les tâches simples."
+    summary: "Le modèle le plus <strong>rapide</strong> et <strong>économique</strong> de Claude. Parfait pour les tâches simples et les <strong>sub-agents</strong> qui explorent rapidement un codebase.",
+    details: "Claude Haiku 4.5 est optimisé pour la vitesse et l'efficacité. Il est particulièrement utilisé par les <strong>sub-agents</strong> intégrés comme 'Explore' qui doivent parcourir <strong>rapidement</strong> de nombreux fichiers. Bien qu'il soit moins capable que Sonnet ou Opus pour les tâches complexes, Haiku excelle dans : la recherche de code, les résumés rapides, les réponses factuelles, et les tâches répétitives. Coût : environ 10x moins cher qu'Opus, très <strong>économique</strong>. Utilisez-le pour économiser des tokens sur les tâches simples."
   },
 
   // ===== MODULE 2 - MEMORY =====
   "claude-md": {
     title: "CLAUDE.md",
-    summary: "Fichier de configuration principal qui contient les instructions, préférences, et conventions pour un projet ou utilisateur. C'est la mémoire persistante de Claude.",
-    details: "CLAUDE.md est le fichier clé pour personnaliser Claude Code. Il peut exister à plusieurs niveaux : projet (.claude/CLAUDE.md ou ./CLAUDE.md), utilisateur (~/.claude/CLAUDE.md), ou entreprise (managed). Le format est en Markdown avec des sections pour le style de code, les commandes, la structure du projet, etc. Utilisez la commande `/memory` pour éditer facilement. Les fichiers sont chargés par ordre de priorité : Enterprise > Project > Rules > User > Local."
+    summary: "Fichier de <strong>configuration principal</strong> qui contient les instructions, préférences, et conventions pour un projet ou utilisateur. C'est la <strong>mémoire persistante</strong> de Claude.",
+    details: "CLAUDE.md est le fichier clé pour personnaliser Claude Code. Il peut exister à plusieurs niveaux : projet (.claude/CLAUDE.md ou ./CLAUDE.md), utilisateur (~/.claude/CLAUDE.md), ou entreprise (managed). Le format est en Markdown avec des sections pour le style de code, les commandes, la structure du projet, etc. Utilisez la commande <strong>/memory</strong> pour éditer facilement. Les fichiers sont chargés par ordre de priorité : Enterprise > Project > Rules > User > Local. C'est la <strong>mémoire persistante</strong> qui permet à Claude de se souvenir de vos préférences."
   },
 
   "claude-local-md": {

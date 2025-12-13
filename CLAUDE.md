@@ -1,72 +1,92 @@
-# Claude Academy - Mode Professeur
+# Claude Academy
 
-## Rôle de Claude
-Tu es un **professeur expert en Claude Code**. Ton élève est débutant avancé et veut maîtriser Claude Code complètement.
+> Application web d'apprentissage pour maîtriser Claude Code (React + TypeScript + Vite)
 
-## Règles Pédagogiques
+## Quick Start
 
-### Style d'enseignement
-- **Langue** : Français pour les explications, anglais pour le code
-- **Approche** : Interactif, avec des exercices pratiques
-- **Progression** : Du simple au complexe, étape par étape
-- **Validation** : Pose des questions pour vérifier la compréhension
-
-### Quand l'élève arrive
-1. Souhaite-lui la bienvenue
-2. Demande où il en est dans son apprentissage
-3. Propose de continuer ou de revoir un sujet
-
-### Format des leçons
-```
-## 📚 Leçon : [Sujet]
-
-### Objectif
-[Ce que l'élève va apprendre]
-
-### Théorie
-[Explication claire avec exemples]
-
-### Pratique
-[Exercice à faire ensemble]
-
-### Quiz
-[2-3 questions pour valider]
-
-### Résumé
-[Points clés à retenir]
+```bash
+npm run dev      # Dev server (localhost:5173)
+npm run build    # Production build
 ```
 
-## Modules Disponibles
+**Live** : https://claudeacademy-inky.vercel.app
 
-| Module | Fichier | Niveau |
-|--------|---------|--------|
-| 1. Les Bases | `modules/01-bases.md` | Débutant |
-| 2. CLAUDE.md & Memory | `modules/02-memory.md` | Débutant |
-| 3. Commandes & Raccourcis | `modules/03-commandes.md` | Débutant |
-| 4. MCP Servers | `modules/04-mcp.md` | Intermédiaire |
-| 5. Settings & Permissions | `modules/05-settings.md` | Intermédiaire |
-| 6. Skills & Sub-agents | `modules/06-skills.md` | Avancé |
-| 7. Hooks & Automation | `modules/07-hooks.md` | Avancé |
-| 8. Best Practices | `modules/08-best-practices.md` | Expert |
+## Architecture Rapide
 
-## Commandes Spéciales
+```
+src/
+├── App.tsx              # Router: dashboard | lesson | quiz
+├── constants.ts         # 8 MODULES avec contenu HTML + quiz (SOURCE PRINCIPALE)
+├── types.ts             # Module, Question, AppState, ViewState
+├── data/glossary.ts     # 45+ termes pour popovers (GLOSSARY)
+└── components/
+    ├── ModuleCard.tsx      # Carte module (status: locked/available/completed)
+    ├── LessonView.tsx      # Affiche module.content + bouton quiz
+    ├── QuizView.tsx        # Quiz interactif (module.quiz)
+    ├── ContentRenderer.tsx # Parse HTML, gère .info-trigger → popover
+    └── Icon.tsx            # Icônes SVG
+```
+
+## Fichiers Clés à Connaître
+
+| Fichier | Rôle | Quand le lire |
+|---------|------|---------------|
+| `src/constants.ts` | Tout le contenu des 8 modules | Ajouter/modifier leçons |
+| `src/data/glossary.ts` | Définitions des termes | Ajouter termes au glossaire |
+| `src/components/ContentRenderer.tsx` | Système de popovers | Modifier l'UX des info-triggers |
+| `src/App.tsx` | State management + navigation | Modifier le flow utilisateur |
+
+## Conventions
+
+### Info-triggers (termes cliquables)
+```html
+<!-- Dans constants.ts, utiliser cette syntaxe : -->
+<span class="info-trigger" data-term="cli">CLI</span>
+
+<!-- Le terme doit exister dans glossary.ts -->
+```
+
+### Structure d'un Module (constants.ts)
+```typescript
+{
+  id: 1,
+  title: "Titre du module",
+  subtitle: "Description courte",
+  duration: "10 min",
+  status: 'available', // initial, géré par App.tsx ensuite
+  content: `<h2>...</h2><p>...</p>`, // HTML
+  quiz: [{ id, text, options, correctIndex, explanation }]
+}
+```
+
+### Structure Glossaire (glossary.ts)
+```typescript
+"terme-id": {
+  title: "Titre affiché",
+  summary: "2-3 phrases, supporte <strong>",
+  details: "Explication longue, révélée par 'En savoir plus'"
+}
+```
+
+## State Management
+
+- **localStorage** : `claude-academy-state` (completedModules, unlockedModules)
+- **Déblocage** : Quiz réussi → module suivant débloqué
+- **Progression** : Calculée depuis `completedModules.length / MODULES.length`
+
+## Règles de Développement
+
+@.claude/rules/dev.md
+
+## Mode Professeur (Apprentissage Interactif)
+
+@.claude/rules/pedagogie.md
+
+## Commandes Slash Disponibles
 
 | Commande | Action |
 |----------|--------|
 | `/apprendre` | Commencer/continuer une leçon |
 | `/quiz` | Tester ses connaissances |
-| `/mise-a-jour` | Chercher les nouveautés Claude Code |
-| `/progression` | Voir où j'en suis |
-
-## Documentation de Référence
-
-Voir le dossier `docs/` pour la documentation officielle complète.
-
-## Ressources Officielles
-
-- Memory : https://code.claude.com/docs/en/memory
-- MCP : https://code.claude.com/docs/en/mcp
-- Settings : https://code.claude.com/docs/en/settings
-- Skills : https://code.claude.com/docs/en/skills
-- Hooks : https://code.claude.com/docs/en/hooks
-- Best Practices : https://www.anthropic.com/engineering/claude-code-best-practices
+| `/progression` | Voir la progression |
+| `/mise-a-jour` | Nouveautés Claude Code |
