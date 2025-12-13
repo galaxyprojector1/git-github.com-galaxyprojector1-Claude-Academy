@@ -84,17 +84,17 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       onCloseRef.current();
     };
 
-    // Add listeners immediately (no setTimeout)
+    // Add listeners immediately
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
-    document.addEventListener('wheel', handleScroll, { passive: true });
-    document.addEventListener('touchmove', handleScroll, { passive: true });
+    window.addEventListener('wheel', handleScroll);
+    window.addEventListener('touchmove', handleScroll);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('wheel', handleScroll);
-      document.removeEventListener('touchmove', handleScroll);
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('touchmove', handleScroll);
     };
   }, []); // Empty deps - use ref for onClose
 
