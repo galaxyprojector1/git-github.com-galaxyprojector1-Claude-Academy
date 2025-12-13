@@ -73,31 +73,34 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       if (e.key === 'Escape') onCloseRef.current();
     };
 
-    // Handle scroll events (wheel for desktop, touchmove for mobile)
-    const handleScroll = (e: WheelEvent | TouchEvent) => {
-      const target = e.target;
-
-      // Check if target is a valid Node and inside the popover
-      if (popoverRef.current && target instanceof Node && popoverRef.current.contains(target)) {
-        // Scrolling inside the popover → open "En savoir plus"
-        setIsDetailsOpen(true);
-        return;
-      }
-      // Scrolling outside → close popover
+    // Close popover when page scrolls
+    const handlePageScroll = () => {
       onCloseRef.current();
     };
 
-    // Add listeners immediately
+    // Open details when scrolling inside the popover
+    const handlePopoverScroll = () => {
+      setIsDetailsOpen(true);
+    };
+
+    // Add scroll listener to popover element
+    const popoverElement = popoverRef.current;
+    if (popoverElement) {
+      popoverElement.addEventListener('scroll', handlePopoverScroll);
+    }
+
+    // Add listeners
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
-    window.addEventListener('wheel', handleScroll);
-    window.addEventListener('touchmove', handleScroll);
+    window.addEventListener('scroll', handlePageScroll, true); // capture phase
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
-      window.removeEventListener('wheel', handleScroll);
-      window.removeEventListener('touchmove', handleScroll);
+      window.removeEventListener('scroll', handlePageScroll, true);
+      if (popoverElement) {
+        popoverElement.removeEventListener('scroll', handlePopoverScroll);
+      }
     };
   }, []); // Empty deps - use ref for onClose
 
