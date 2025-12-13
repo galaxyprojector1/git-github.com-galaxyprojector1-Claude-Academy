@@ -59,8 +59,8 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
       if (e.key === 'Escape') onClose();
     };
 
-    // Handle wheel events
-    const handleWheel = (e: WheelEvent) => {
+    // Handle scroll events (wheel for desktop, touchmove for mobile)
+    const handleScroll = (e: WheelEvent | TouchEvent) => {
       // If scrolling inside the popover → open "En savoir plus"
       if (popoverRef.current && popoverRef.current.contains(e.target as Node)) {
         setIsDetailsOpen(true);
@@ -73,13 +73,15 @@ const PopoverContent: React.FC<PopoverContentProps> = ({ term, rect, onClose }) 
     setTimeout(() => {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscape);
-      document.addEventListener('wheel', handleWheel, { passive: true });
+      document.addEventListener('wheel', handleScroll, { passive: true });
+      document.addEventListener('touchmove', handleScroll, { passive: true });
     }, 100);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('wheel', handleScroll);
+      document.removeEventListener('touchmove', handleScroll);
     };
   }, [onClose]);
 
